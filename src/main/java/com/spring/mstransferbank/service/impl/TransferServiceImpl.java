@@ -15,11 +15,11 @@ import java.util.Optional;
 @Service
 public class TransferServiceImpl implements TransferService {
 
-    WebClient webClientCurrent = WebClient.create("http://localhost:8090/api/ms-current-account/currentAccount");
+    WebClient webClientCurrent = WebClient.create("http://gateway:8090/api/ms-current-account/currentAccount");
 
-    WebClient webClientFixed = WebClient.create("http://localhost:8090/api/ms-fixed-term/fixedTerm");
+    WebClient webClientFixed = WebClient.create("http://gateway:8090/api/ms-fixed-term/fixedTerm");
 
-    WebClient webClientSaving = WebClient.create("http://localhost:8090/api/ms-saving-account/savingAccount");
+    WebClient webClientSaving = WebClient.create("http://gateway:8090/api/ms-saving-account/savingAccount");
 
     @Autowired
     TransferRepository transferRepository;
