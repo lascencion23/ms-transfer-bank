@@ -50,15 +50,15 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public Mono<Optional<BankAccount>> findBankAccount(String cardNumber) {
-        return webClientCurrent.get().uri("/findByAccountNumber/{id}", cardNumber)
+    public Mono<Optional<BankAccount>> findBankAccount(String accountNumber) {
+        return webClientCurrent.get().uri("/findByAccountNumber/{id}", accountNumber)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(CurrentAccount.class)
                 .map(currentAccount -> {
                     System.out.println("Encontro currentAccount > " + currentAccount.getId());
                     return Optional.of((BankAccount)currentAccount);})
-                .switchIfEmpty(webClientFixed.get().uri("/findByAccountNumber/{id}", cardNumber)
+                .switchIfEmpty(webClientFixed.get().uri("/findByAccountNumber/{id}", accountNumber)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .retrieve()
                                 .bodyToMono(FixedTerm.class)
@@ -66,7 +66,7 @@ public class TransferServiceImpl implements TransferService {
                                     System.out.println("Encontro fixedTerm > " + fixedTerm.getId());
                                     return Optional.of((BankAccount)fixedTerm);
                                 })
-                                .switchIfEmpty(webClientSaving.get().uri("/findByAccountNumber/{id}", cardNumber)
+                                .switchIfEmpty(webClientSaving.get().uri("/findByAccountNumber/{id}", accountNumber)
                                                 .accept(MediaType.APPLICATION_JSON)
                                                 .retrieve()
                                                 .bodyToMono(SavingAccount.class)
